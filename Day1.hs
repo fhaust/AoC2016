@@ -4,24 +4,18 @@ import           Data.List.Split
 
 -- data types
 
-data Heading = N | E | S | W deriving (Show,Eq)
+data Heading = N | E | S | W deriving (Show,Eq,Enum)
 data Direction = L | R deriving (Show,Read,Eq)
 type Steps = Int
 type Position = (Int,Int)
 data Input = Input Direction Steps deriving (Show,Eq)
 
 -- direction resulting from turning left or right
-turn R N = E
-turn R E = S
-turn R S = W
-turn R W = N
-turn L N = W
-turn L W = S
-turn L S = E
-turn L E = N
+turn R h = toEnum ((fromEnum h + 1) `mod` 4)
+turn L h = toEnum ((fromEnum h - 1) `mod` 4)
 
 -- take one step int the given direction
-move _ 0 (x,y) = (x,y) : []
+move _ 0 (x,y) = [(x,y)]
 move N s (x,y) = (x,y) : move N (s-1) (x+0,y+1)
 move E s (x,y) = (x,y) : move E (s-1) (x+1,y+0)
 move S s (x,y) = (x,y) : move S (s-1) (x+0,y-1)
@@ -32,7 +26,7 @@ parseInstructions = map (\(d:i) -> Input (read [d]) (read i)) . splitOn ", " . i
 
 -- actual movement
 followInstructions (h,ps) (Input d s) = let h' = turn d h
-                                            ps' = (init ps) ++ move h' s (last ps)
+                                            ps' = init ps ++ move h' s (last ps)
                                         in (h',ps')
 
 -- city block distance
@@ -59,5 +53,3 @@ main = do
     -- show results
     putStrLn $ "result part one: " ++ show distance
     putStrLn $ "result part two: " ++ show distance2
-
-
