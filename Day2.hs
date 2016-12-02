@@ -2,11 +2,6 @@
 import           Data.List
 import           Data.List.Split
 
--- data types
-
-type Steps = Int
-type Position = (Int,Int)
-
 -- take one step int the given direction
 move 'U' (x,y) = (x+0,y-1)
 move 'R' (x,y) = (x+1,y+0)
