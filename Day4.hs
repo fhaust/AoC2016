@@ -20,8 +20,8 @@ mkChecksum s = take 5 . map fst . sortBy (\a b -> compare (snd b) (snd a))
              . Map.toList $ Map.fromListWith (+) (zip s (repeat 1))
 
 -- | decrypt room description
-decrypt (n,i,c) = (iterate step n !! i, i, c)
-  where step = map (\c -> if c == 'z' then 'a' else toEnum (fromEnum c + 1))
+decrypt (n,i,c) = (map shift n, i, c)
+  where shift x = toEnum $ ((fromEnum x - 97 + i) `mod` 26) + 97
 
 
 main = do
