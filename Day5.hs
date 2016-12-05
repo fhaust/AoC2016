@@ -1,3 +1,10 @@
+#!/usr/bin/env stack
+-- stack --resolver lts-7.11 --install-ghc runghc
+-- --package base
+-- --package cryptohash
+-- --package hex
+-- -- -hide-all-packages
+
 import qualified Crypto.Hash.MD5 as MD5
 import qualified Data.ByteString.Char8 as BS
 
@@ -28,5 +35,5 @@ main = do
                 . scanl' updateKey Map.empty
                 $ hashes2
 
-    putStrLn $ "result part one: " ++ show result1
-    putStrLn $ "result part two: " ++ show result2
+    putStrLn $ "result part one: " ++ result1
+    putStrLn $ "result part two: " ++ result2
